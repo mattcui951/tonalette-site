@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tonalette Music</title>
+<meta name="description" content="Tonalette (调色盘) is a small crew of music obsessives making AI songs. Every track is listened through and approved by a person before release.">
+<meta name="theme-color" content="#2E6C79">
+<link rel="canonical" href="https://tonalette.com/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Tonalette Music">
+<meta property="og:description" content="AI music, finished by human ears. Every track is reviewed by a person before release.">
+<meta property="og:url" content="https://tonalette.com/">
+<meta property="og:image" content="https://tonalette.com/img/share.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" sizes="192x192" href="img/icon-192.png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --teal: #2F6C7B;
+  --teal-deep: #245763;
+  --cream: #F7EBDD;
+  --cream-2: #FFF7EE;
+  --navy: #26304A;
+  --ink-soft: #5A6178;
+  --orange: #E5845A;
+  --green: #A3BF78;
+  --blue: #6FA2C9;
+  --sage: #A9B59A;
+  --radius: 20px;
+  --wrap: 1180px;
+  --gutter: clamp(16px, 5vw, 48px);
+  --font: "Bricolage Grotesque", "Noto Sans SC", system-ui, sans-serif;
+  --body: "Noto Sans SC", "Bricolage Grotesque", system-ui, sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--cream);
+  color: var(--navy);
+  font-family: var(--body);
+  font-size: 17px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; display: block; }
+a { color: inherit; }
+.wrap { width: 100%; max-width: calc(var(--wrap) + 2 * var(--gutter)); margin: 0 auto; padding: 0 var(--gutter); }
+.skip { position: absolute; left: 16px; top: -60px; background: var(--navy); color: #fff; padding: 10px 16px; border-radius: 10px; z-index: 100; text-decoration: none; }
+.skip:focus { top: 16px; }
+:focus-visible { outline: 3px solid var(--orange); outline-offset: 3px; border-radius: 6px; }
+
+/* palette stripe: the brand's four colours */
+.palette { display: flex; gap: 8px; }
+.palette span { width: 28px; height: 10px; border-radius: 99px; }
+.palette span:nth-child(1) { background: var(--orange); }
+.palette span:nth-child(2) { background: var(--green); }
+.palette span:nth-child(3) { background: var(--blue); }
+.palette span:nth-child(4) { background: var(--cream); }
+
+/* nav */
+header.nav { position: absolute; inset: 0 0 auto 0; z-index: 10; }
+header.nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 84px; }
+.brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--cream-2); font-family: var(--font); font-weight: 800; font-size: 20px; letter-spacing: -0.01em; }
+.brand img { width: 40px; height: 40px; border-radius: 50%; }
+.nav-links { display: flex; align-items: center; gap: 8px; }
+.nav-links a { color: var(--cream-2); text-decoration: none; font-weight: 500; font-size: 15px; padding: 10px 14px; border-radius: 99px; transition: background .2s; }
+.nav-links a:hover { background: rgba(255,255,255,.1); }
+.lang { font: 600 14px var(--font); color: var(--cream-2); background: transparent; border: 1.5px solid rgba(255,247,238,.45); border-radius: 99px; padding: 9px 16px; min-height: 44px; cursor: pointer; transition: border-color .2s, background .2s; }
+.lang:hover { border-color: var(--cream-2); background: rgba(255,255,255,.08); }
+
+/* buttons */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px; padding: 0 26px; border-radius: 99px; font: 700 16px var(--font); text-decoration: none; border: 0; cursor: pointer; transition: transform .18s ease, background .2s, box-shadow .2s; }
+.btn:hover { transform: translateY(-2px); }
+.btn:active { transform: translateY(1px) scale(.98); }
+.btn-primary { background: var(--orange); color: #2A1A12; box-shadow: 0 6px 18px rgba(229,132,90,.35); }
+.btn-primary:hover { background: #EE9068; }
+.btn-ghost { background: transparent; color: var(--cream-2); box-shadow: inset 0 0 0 1.5px rgba(255,247,238,.5); }
+.btn-ghost:hover { box-shadow: inset 0 0 0 1.5px var(--cream-2); }
+.btn .arrow { transition: transform .2s; }
+.btn:hover .arrow { transform: translateX(3px); }
+
+/* hero */
+.hero { background: var(--teal); color: var(--cream-2); min-height: 100vh; min-height: 100svh; display: flex; align-items: center; overflow: hidden; position: relative; }
+.hero .wrap { display: grid; grid-template-columns: 1.05fr 1fr; align-items: center; gap: 40px; padding-top: 100px; padding-bottom: 60px; }
+.eyebrow { display: flex; align-items: center; gap: 14px; font: 600 14px var(--font); letter-spacing: .08em; text-transform: uppercase; opacity: .85; margin: 0 0 22px; }
+.hero h1 { font-family: var(--font); font-weight: 800; font-size: clamp(42px, 6vw, 80px); line-height: 1.02; letter-spacing: -0.03em; margin: 0 0 24px; }
+.hero h1 em { font-style: normal; color: #FFD9C2; }
+.hero p.lead { font-size: clamp(17px, 1.5vw, 20px); max-width: 34em; margin: 0 0 34px; color: rgba(255,247,238,.88); }
+.actions { display: flex; flex-wrap: wrap; gap: 14px; }
+.mascot { position: relative; justify-self: center; width: min(100%, 560px); }
+.mascot img, .box-side img {
+  -webkit-mask-image: radial-gradient(closest-side, #000 76%, transparent 100%);
+  mask-image: radial-gradient(closest-side, #000 76%, transparent 100%);
+}
+.mascot img { width: 100%; height: auto; animation: bob 4s ease-in-out infinite; }
+@keyframes bob { 0%,100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-10px) rotate(-1deg); } }
+.notes span { position: absolute; font-size: 30px; color: var(--cream-2); opacity: 0; animation: float 4s ease-in-out infinite; }
+.notes span:nth-child(1) { left: 8%; top: 22%; color: #FFD9C2; }
+.notes span:nth-child(2) { right: 6%; top: 14%; animation-delay: 1.3s; color: #CFE3B5; }
+.notes span:nth-child(3) { right: 14%; top: 44%; animation-delay: 2.6s; color: #C4DDF0; font-size: 24px; }
+@keyframes float { 0% { opacity: 0; transform: translateY(10px); } 25% { opacity: .9; } 100% { opacity: 0; transform: translateY(-50px); } }
+
+/* entrance */
+[data-enter] > * { opacity: 0; transform: translateY(18px); animation: enter .8s cubic-bezier(.2,.7,.2,1) forwards; }
+[data-enter] > *:nth-child(2) { animation-delay: .08s; }
+[data-enter] > *:nth-child(3) { animation-delay: .16s; }
+[data-enter] > *:nth-child(4) { animation-delay: .24s; }
+.mascot { opacity: 0; animation: enter-pop 1s .2s cubic-bezier(.2,.8,.2,1.1) forwards; }
+@keyframes enter { to { opacity: 1; transform: none; } }
+@keyframes enter-pop { from { opacity: 0; transform: scale(.9) translateY(20px); } to { opacity: 1; transform: none; } }
+
+/* sections */
+section.block { padding: clamp(80px, 11vw, 140px) 0; }
+.kicker { font: 700 13px var(--font); letter-spacing: .1em; text-transform: uppercase; color: var(--teal); margin: 0 0 16px; display: flex; align-items: center; gap: 12px; }
+h2 { font-family: var(--font); font-weight: 800; font-size: clamp(34px, 4.4vw, 58px); line-height: 1.06; letter-spacing: -0.025em; margin: 0 0 20px; }
+.intro { max-width: 40em; font-size: 19px; color: var(--ink-soft); margin: 0 0 56px; }
+
+.steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.step { background: var(--cream-2); border-radius: var(--radius); padding: 32px 30px 34px; box-shadow: 0 1px 0 rgba(38,48,74,.06), 0 10px 30px -18px rgba(38,48,74,.25); transition: transform .25s, box-shadow .25s; }
+.step:hover { transform: translateY(-2px); box-shadow: 0 1px 0 rgba(38,48,74,.06), 0 18px 40px -20px rgba(38,48,74,.35); }
+.dot { width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; font: 800 18px var(--font); color: #fff; margin-bottom: 22px; }
+.step:nth-child(1) .dot { background: var(--orange); }
+.step:nth-child(2) .dot { background: #86A35B; }
+.step:nth-child(3) .dot { background: #4F86B0; }
+.step h3 { font-family: var(--font); font-weight: 700; font-size: 23px; letter-spacing: -0.01em; margin: 0 0 10px; }
+.step p { margin: 0; color: var(--ink-soft); font-size: 16px; }
+
+.promise { margin-top: 20px; background: var(--navy); color: var(--cream-2); border-radius: var(--radius); padding: 34px 36px; display: grid; grid-template-columns: auto 1fr; gap: 26px; align-items: center; }
+.promise .badge { width: 64px; height: 64px; border-radius: 50%; background: var(--green); display: grid; place-items: center; }
+.promise .badge svg { width: 30px; height: 30px; }
+.promise p { margin: 0; font-size: 19px; }
+.promise strong { font-family: var(--font); font-size: 22px; display: block; margin-bottom: 4px; letter-spacing: -0.01em; }
+
+.listen { margin-top: 56px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 14px; }
+.listen .label { font-weight: 500; color: var(--ink-soft); margin-right: 6px; }
+.chip { display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border-radius: 99px; background: var(--cream-2); text-decoration: none; font: 600 15px var(--font); box-shadow: inset 0 0 0 1.5px rgba(38,48,74,.14); transition: transform .18s, box-shadow .2s; }
+.chip:hover { transform: translateY(-2px); box-shadow: inset 0 0 0 1.5px var(--teal); }
+
+/* suggestion box */
+.box { background: var(--teal); color: var(--cream-2); }
+.box .wrap { display: grid; grid-template-columns: 1fr 1.15fr; gap: clamp(40px, 6vw, 90px); align-items: start; }
+.box .kicker { color: #FFD9C2; }
+.box .intro { color: rgba(255,247,238,.85); margin-bottom: 30px; }
+.box-side img { width: 180px; height: auto; margin-top: 10px; }
+form { background: var(--cream-2); color: var(--navy); border-radius: 24px; padding: clamp(24px, 4vw, 40px); box-shadow: 0 30px 60px -30px rgba(0,0,0,.45); }
+.field { margin-bottom: 20px; }
+.field label { display: block; font: 700 15px var(--font); margin-bottom: 8px; }
+.field input, .field textarea { width: 100%; font: 400 16px var(--body); color: var(--navy); background: #fff; border: 1.5px solid rgba(38,48,74,.18); border-radius: 14px; padding: 13px 15px; transition: border-color .2s, box-shadow .2s; }
+.field textarea { min-height: 160px; resize: vertical; }
+.field input:focus, .field textarea:focus { outline: none; border-color: var(--teal); box-shadow: 0 0 0 4px rgba(46,108,121,.18); }
+.field[aria-invalid="true"] input, .field[aria-invalid="true"] textarea { border-color: #C2492B; }
+.err { display: none; color: #B23F22; font-size: 14px; margin-top: 6px; }
+.field[aria-invalid="true"] .err { display: block; }
+.hp { position: absolute; left: -9999px; }
+form .btn-primary { width: 100%; }
+form .btn-primary[disabled] { opacity: .6; cursor: progress; transform: none; }
+.status { margin: 16px 0 0; font-size: 15px; min-height: 1.5em; }
+.status.ok { color: #3D6B2A; font-weight: 500; }
+.status.bad { color: #B23F22; }
+.privacy { font-size: 13px; color: var(--ink-soft); margin: 14px 0 0; }
+
+footer { background: var(--navy); color: rgba(255,247,238,.75); padding: 40px 0; font-size: 14px; }
+footer .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; }
+footer .brand { font-size: 17px; }
+footer .brand img { width: 32px; height: 32px; }
+footer a { text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+
+/* Chinese line-height and spacing */
+html[lang="zh-CN"] .hero h1 { line-height: 1.15; letter-spacing: 0; }
+html[lang="zh-CN"] h2 { line-height: 1.2; letter-spacing: 0; }
+html[lang="zh-CN"] .eyebrow, html[lang="zh-CN"] .kicker { letter-spacing: .12em; }
+
+@media (max-width: 900px) {
+  .hero .wrap { grid-template-columns: 1fr; text-align: left; padding-top: 110px; gap: 10px; }
+  .mascot { order: -1; width: min(70%, 340px); }
+  .steps { grid-template-columns: 1fr; }
+  .box .wrap { grid-template-columns: 1fr; }
+  .box-side img { display: none; }
+  .nav-links a { display: none; }
+}
+@media (max-width: 520px) {
+  .actions .btn { width: 100%; }
+  .promise { grid-template-columns: 1fr; padding: 28px 24px; }
+  .brand span { display: none; }
+  .hero .eyebrow .palette { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  [data-enter] > *, .mascot { opacity: 1; transform: none; }
+  .notes { display: none; }
+  html { scroll-behavior: auto; }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main" data-i18n="skip">Skip to content</a>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Tonalette home">
+      <img src="img/icon-192.png" alt="" width="40" height="40">
+      <span>Tonalette</span>
+    </a>
+    <nav class="nav-links" aria-label="Main">
+      <a href="#about" data-i18n="navAbout">About us</a>
+      <a href="#suggest" data-i18n="navSuggest">Suggestion box</a>
+      <button class="lang" type="button" id="lang" aria-label="切换到中文">中文</button>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero" id="top">
+    <div class="wrap">
+      <div data-enter>
+        <p class="eyebrow"><span class="palette" aria-hidden="true"><span></span><span></span><span></span><span></span></span><span data-i18n="eyebrow">调色盘 · Tonalette Music</span></p>
+        <h1 data-i18n-html="h1">AI music,<br><em>finished by human ears.</em></h1>
+        <p class="lead" data-i18n="lead">We are a small crew of music obsessives. We study songs every day, write and shape every track ourselves, and nothing goes out until one of us has listened all the way through and said yes.</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="#suggest"><span data-i18n="ctaSuggest">Send us a suggestion</span><span class="arrow" aria-hidden="true">&rarr;</span></a>
+          <a class="btn btn-ghost" href="#about" data-i18n="ctaAbout">How we make songs</a>
+        </div>
+      </div>
+      <div class="mascot">
+        <div class="notes" aria-hidden="true"><span>&#9834;</span><span>&#9835;</span><span>&#9833;</span></div>
+        <img src="img/mascot.webp" width="900" height="900" alt="Tonalette mascot, a round cream character with orange, green and blue hair, wearing headphones">
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="about">
+    <div class="wrap">
+      <p class="kicker"><span class="palette" aria-hidden="true"><span></span><span></span><span></span></span><span data-i18n="aboutKicker">About Tonalette</span></p>
+      <h2 data-i18n="aboutH2">Music fans first, AI second</h2>
+      <p class="intro" data-i18n="aboutIntro">Tonalette means a palette of tones. AI is one of the instruments we play. The taste, the ideas and the final call stay with people who love music.</p>
+
+      <div class="steps">
+        <article class="step">
+          <div class="dot" aria-hidden="true">1</div>
+          <h3 data-i18n="s1h">We obsess</h3>
+          <p data-i18n="s1p">We listen to everything, take songs apart and study why a chorus lands or a mix breathes. That homework goes into every track.</p>
+        </article>
+        <article class="step">
+          <div class="dot" aria-hidden="true">2</div>
+          <h3 data-i18n="s2h">We make</h3>
+          <p data-i18n="s2p">We write the lyrics, set the style and run take after take with AI tools until the song sounds the way we heard it in our heads.</p>
+        </article>
+        <article class="step">
+          <div class="dot" aria-hidden="true">3</div>
+          <h3 data-i18n="s3h">We review</h3>
+          <p data-i18n="s3p">A person listens to every song from start to finish: lyrics, vocals, mix, odd artefacts. If it is not right, it does not get released.</p>
+        </article>
+      </div>
+
+      <div class="promise">
+        <div class="badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#26304A" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+        <p><strong data-i18n="promiseH">Every AI song we release is checked by a human.</strong><span data-i18n="promiseP">No exceptions, and every release is clearly labelled as AI-generated.</span></p>
+      </div>
+
+      <div class="listen">
+        <span class="label" data-i18n="listen">Hear our latest, "Leave the Hall Light On":</span>
+        <a class="chip" href="https://www.tiktok.com/@tonalette.music" target="_blank" rel="noopener">TikTok</a>
+        <a class="chip" href="https://www.bilibili.com/video/BV1gnyJziEuu" target="_blank" rel="noopener" data-i18n="bili">Bilibili</a>
+        <a class="chip" href="https://www.facebook.com/reel/1450376136650006" target="_blank" rel="noopener">Facebook</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="block box" id="suggest">
+    <div class="wrap">
+      <div class="box-side">
+        <p class="kicker"><span class="palette" aria-hidden="true"><span></span><span></span><span></span></span><span data-i18n="boxKicker">Suggestion box</span></p>
+        <h2 data-i18n="boxH2">Tell us what you want to hear</h2>
+        <p class="intro" data-i18n="boxIntro">A song idea, a style you want us to try, a lyric that bugged you, a video you would like to see. It goes straight to our studio inbox, and we read every one.</p>
+        <img src="img/mascot.webp" width="900" height="900" alt="" loading="lazy">
+      </div>
+
+      <form id="form" novalidate>
+        <div class="field" id="f-name">
+          <label for="name" data-i18n="lName">Your name</label>
+          <input id="name" name="name" type="text" autocomplete="name" maxlength="80" required aria-describedby="e-name">
+          <div class="err" id="e-name" data-i18n="eName">Please tell us your name.</div>
+        </div>
+        <div class="field" id="f-email">
+          <label for="email" data-i18n="lEmail">Your email</label>
+          <input id="email" name="email" type="email" autocomplete="email" maxlength="120" required aria-describedby="e-email">
+          <div class="err" id="e-email" data-i18n="eEmail">Please enter an email we can reply to.</div>
+        </div>
+        <div class="field" id="f-msg">
+          <label for="message" data-i18n="lMsg">Your suggestion</label>
+          <textarea id="message" name="message" maxlength="4000" required aria-describedby="e-msg"></textarea>
+          <div class="err" id="e-msg" data-i18n="eMsg">Please write your suggestion.</div>
+        </div>
+        <input class="hp" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button class="btn btn-primary" type="submit" id="send"><span data-i18n="send">Send suggestion</span><span class="arrow" aria-hidden="true">&rarr;</span></button>
+        <p class="status" id="status" role="status" aria-live="polite"></p>
+        <p class="privacy" data-i18n="privacy">We only use your email to reply to you.</p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <a class="brand" href="#top"><img src="img/icon-192.png" alt="" width="32" height="32">Tonalette 调色盘</a>
+    <span>&copy; 2026 Tonalette &middot; <a href="mailto:studio@tonalette.com">studio@tonalette.com</a></span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  // FormSubmit endpoint. After the first submission, FormSubmit emails an activation link
+  // and a random alias; swap the address below for that alias to hide the inbox from scrapers.
+  var ENDPOINT = "https://formsubmit.co/ajax/studio@tonalette.com";
+
+  var zh = {
+    skip: "跳到正文",
+    navAbout: "关于我们",
+    navSuggest: "意见箱",
+    eyebrow: "调色盘 · Tonalette Music",
+    h1: "AI 写的歌，<br><em>人耳来把关。</em>",
+    lead: "我们是一群音乐狂热者。每天钻研歌曲，每一首作品都亲手打磨；每首歌发布前，都必须有人从头听到尾、点头通过。",
+    ctaSuggest: "给我们提建议",
+    ctaAbout: "我们怎么做歌",
+    aboutKicker: "关于调色盘",
+    aboutH2: "先是乐迷，然后才是 AI",
+    aboutIntro: "调色盘，就是音色的调色盘。AI 是我们手里的一件乐器，而品味、想法和最后的决定，始终在热爱音乐的人手里。",
+    s1h: "我们钻研",
+    s1p: "什么都听，把歌拆开来研究：副歌为什么抓耳，混音为什么有呼吸感。这些功课都会用进每一首歌。",
+    s2h: "我们创作",
+    s2p: "歌词自己写，风格自己定，用 AI 工具一遍又一遍地生成，直到它听起来就是我们脑子里的样子。",
+    s3h: "我们审核",
+    s3p: "每首歌都有人完整听完：歌词、人声、混音、奇怪的瑕疵。不对，就不发。",
+    promiseH: "我们发布的每一首 AI 歌曲，都经过人工审核。",
+    promiseP: "没有例外，而且每次发布都会明确标注为 AI 生成内容。",
+    listen: "听听我们的最新作品《Leave the Hall Light On》：",
+    bili: "哔哩哔哩",
+    boxKicker: "意见箱",
+    boxH2: "想听什么，告诉我们",
+    boxIntro: "想听的歌、想让我们试的风格、哪句歌词不对劲、想看的视频，都可以写下来。它会直接发到我们工作室的邮箱，每一条我们都会看。",
+    lName: "你的名字",
+    eName: "请填写你的名字。",
+    lEmail: "你的邮箱",
+    eEmail: "请填写一个我们能回复的邮箱。",
+    lMsg: "你的建议",
+    eMsg: "请写下你的建议。",
+    send: "发送建议",
+    privacy: "你的邮箱只用来回复你。",
+    sending: "发送中…",
+    ok: "收到啦，谢谢你！我们会认真看的。",
+    fail: "发送失败了，请稍后再试，或直接写信到 studio@tonalette.com。"
+  };
+  var en = {}, msgEn = {
+    sending: "Sending…",
+    ok: "Got it, thank you! We will read it soon.",
+    fail: "That did not send. Please try again later, or email studio@tonalette.com."
+  };
+  document.querySelectorAll("[data-i18n]").forEach(function (el) { en[el.dataset.i18n] = el.textContent; });
+  document.querySelectorAll("[data-i18n-html]").forEach(function (el) { en[el.dataset.i18nHtml] = el.innerHTML; });
+  Object.assign(en, msgEn);
+
+  var lang = "en";
+  var btn = document.getElementById("lang");
+  function t(k) { return (lang === "zh" ? zh : en)[k]; }
+  function apply(l) {
+    lang = l;
+    var d = l === "zh" ? zh : en;
+    document.documentElement.lang = l === "zh" ? "zh-CN" : "en";
+    document.querySelectorAll("[data-i18n]").forEach(function (el) { if (d[el.dataset.i18n]) el.textContent = d[el.dataset.i18n]; });
+    document.querySelectorAll("[data-i18n-html]").forEach(function (el) { if (d[el.dataset.i18nHtml]) el.innerHTML = d[el.dataset.i18nHtml]; });
+    btn.textContent = l === "zh" ? "EN" : "中文";
+    btn.setAttribute("aria-label", l === "zh" ? "Switch to English" : "切换到中文");
+    document.title = l === "zh" ? "调色盘 Tonalette Music" : "Tonalette Music";
+    try { localStorage.setItem("lang", l); } catch (e) {}
+  }
+  var saved = null;
+  try { saved = localStorage.getItem("lang"); } catch (e) {}
+  var start = saved || ((navigator.language || "").toLowerCase().indexOf("zh") === 0 ? "zh" : "en");
+  if (start === "zh") apply("zh");
+  btn.addEventListener("click", function () { apply(lang === "zh" ? "en" : "zh"); });
+
+  // form
+  var form = document.getElementById("form"), status = document.getElementById("status"), send = document.getElementById("send");
+  var checks = [
+    ["f-name", "name", function (v) { return v.trim().length > 0; }],
+    ["f-email", "email", function (v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()); }],
+    ["f-msg", "message", function (v) { return v.trim().length > 0; }]
+  ];
+  function validate() {
+    var first = null;
+    checks.forEach(function (c) {
+      var input = form.elements[c[1]], ok = c[2](input.value);
+      document.getElementById(c[0]).setAttribute("aria-invalid", ok ? "false" : "true");
+      input.setAttribute("aria-invalid", ok ? "false" : "true");
+      if (!ok && !first) first = input;
+    });
+    if (first) first.focus();
+    return !first;
+  }
+  checks.forEach(function (c) {
+    form.elements[c[1]].addEventListener("input", function () {
+      var f = document.getElementById(c[0]);
+      if (f.getAttribute("aria-invalid") === "true" && c[2](this.value)) { f.setAttribute("aria-invalid", "false"); this.setAttribute("aria-invalid", "false"); }
+    });
+  });
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    status.className = "status"; status.textContent = "";
+    if (!validate()) return;
+    if (form.elements._honey.value) return;
+    send.disabled = true; status.textContent = t("sending");
+    fetch(ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body: JSON.stringify({
+        name: form.elements.name.value.trim(),
+        email: form.elements.email.value.trim(),
+        message: form.elements.message.value.trim(),
+        language: lang,
+        _subject: "Tonalette website suggestion from " + form.elements.name.value.trim(),
+        _template: "table",
+        _captcha: "false"
+      })
+    }).then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+      .then(function (res) {
+        if (res.ok && String(res.j.success) === "true") {
+          status.className = "status ok"; status.textContent = t("ok"); form.reset();
+        } else { throw new Error(res.j && res.j.message); }
+      })
+      .catch(function () { status.className = "status bad"; status.textContent = t("fail"); })
+      .then(function () { send.disabled = false; });
+  });
+})();
+</script>
+</body>
+</html>
