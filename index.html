@@ -415,8 +415,12 @@ html[lang="zh-CN"] .eyebrow, html[lang="zh-CN"] .kicker { letter-spacing: .12em;
     if (!validate()) return;
     if (form.elements._honey.value) return;
     send.disabled = true; status.textContent = t("sending");
+    // Give up after 20 s so a stalled form service shows an error instead of hanging.
+    var ctrl = window.AbortController ? new AbortController() : null;
+    var timer = ctrl ? setTimeout(function () { ctrl.abort(); }, 20000) : null;
     fetch(ENDPOINT, {
       method: "POST",
+      signal: ctrl ? ctrl.signal : undefined,
       headers: { "Content-Type": "application/json", "Accept": "application/json" },
       body: JSON.stringify({
         name: form.elements.name.value.trim(),
@@ -434,7 +438,7 @@ html[lang="zh-CN"] .eyebrow, html[lang="zh-CN"] .kicker { letter-spacing: .12em;
         } else { throw new Error(res.j && res.j.message); }
       })
       .catch(function () { status.className = "status bad"; status.textContent = t("fail"); })
-      .then(function () { send.disabled = false; });
+      .then(function () { if (timer) clearTimeout(timer); send.disabled = false; });
   });
 })();
 </script>
